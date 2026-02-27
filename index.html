@@ -507,7 +507,7 @@ document.getElementById('demoForm').addEventListener('submit', async (e) => {
       status: 'Neu',
       notes: 'Flottengröße: ' + document.getElementById('fleetSize').value + (document.getElementById('message').value ? ', Nachricht: ' + document.getElementById('message').value : '')
     };
-    const res = await fetch('http://localhost:3001/api/leads', {
+    const res = await fetch('https://topic-peter-dawn-shepherd.trycloudflare.com/api/leads', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
     });
     if (res.ok) {
