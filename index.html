@@ -26,9 +26,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between;hei
 .nav-links a{color:var(--fg2);font-size:.9rem;transition:color .2s}.nav-links a:hover{color:var(--fg)}
 .nav-cta{background:var(--accent);color:#000;padding:8px 20px;border-radius:6px;font-weight:600;font-size:.9rem}
 .mobile-toggle{display:none;background:none;border:none;color:var(--fg);font-size:1.5rem;cursor:pointer}
-.nav-links.open{display:flex!important;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:rgba(10,10,10,.97);backdrop-filter:blur(20px);padding:24px;gap:20px;border-bottom:1px solid rgba(255,255,255,.1);animation:slideDown .3s ease}
-@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-.nav-links.open .nav-cta{width:100%;text-align:center;padding:14px}
 
 /* HERO */
 #hero{position:relative;min-height:100vh;display:flex;align-items:center;padding-top:64px;overflow:hidden}
@@ -69,31 +66,82 @@ nav .container{display:flex;align-items:center;justify-content:space-between;hei
 .vorteil-icon{font-size:2rem;margin-bottom:12px;display:block}
 .vorteil h4{font-size:1rem;font-weight:600}
 
-/* DASHBOARD MOCKUP */
+/* DASHBOARD MOCKUP - Interactive Platform Demo */
 #dashboard{padding:120px 0}
-.dashboard-wrapper{background:var(--bg2);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;max-width:1000px;margin:0 auto}
-.dash-topbar{background:var(--bg3);padding:12px 20px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.06)}
+.dashboard-wrapper{background:#0d0d0d;border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden;max-width:1100px;margin:0 auto;box-shadow:0 25px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05)}
+.dash-topbar{background:#111;padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.06)}
 .dash-dot{width:12px;height:12px;border-radius:50%}
 .dash-dot.r{background:#ef4444}.dash-dot.y{background:#f59e0b}.dash-dot.g{background:#10b981}
-.dash-body{display:grid;grid-template-columns:200px 1fr;min-height:350px}
-.dash-sidebar{background:var(--bg3);padding:20px;border-right:1px solid rgba(255,255,255,.06)}
-.dash-sidebar-item{padding:10px 14px;border-radius:6px;font-size:.85rem;color:var(--fg2);margin-bottom:4px;cursor:default}
+.dash-topbar-title{margin-left:8px;font-size:.8rem;color:var(--fg2);flex:1}
+.dash-search{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:5px 12px;font-size:.75rem;color:var(--fg2);width:200px;outline:none}
+.dash-search::placeholder{color:rgba(255,255,255,.25)}
+.dash-body{display:grid;grid-template-columns:44px 1fr;min-height:480px}
+.dash-sidebar{background:#0a0a0a;padding:8px 0;border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;gap:2px}
+.dash-sidebar-item{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:1rem;color:var(--fg2);cursor:pointer;transition:all .2s;position:relative}
+.dash-sidebar-item:hover{background:rgba(255,255,255,.06);color:var(--fg)}
 .dash-sidebar-item.active{background:rgba(16,185,129,.15);color:var(--accent)}
-.dash-main{padding:24px}
-.dash-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
-.dash-stat{background:var(--bg3);border-radius:8px;padding:16px}
-.dash-stat small{color:var(--fg2);font-size:.75rem}
-.dash-stat div{font-size:1.4rem;font-weight:700;margin-top:4px}
-.dash-chart{background:var(--bg3);border-radius:8px;padding:16px;margin-bottom:16px}
-.dash-chart-title{font-size:.8rem;color:var(--fg2);margin-bottom:12px}
-.bars{display:flex;align-items:flex-end;gap:8px;height:100px}
-.bar{flex:1;background:var(--accent);border-radius:4px 4px 0 0;min-width:20px;transition:height .5s}
-.dash-table{width:100%;font-size:.8rem;border-collapse:collapse}
+.dash-sidebar-item .sidebar-tooltip{position:absolute;left:48px;background:#1a1a1a;color:var(--fg);padding:4px 10px;border-radius:4px;font-size:.7rem;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}
+.dash-sidebar-item:hover .sidebar-tooltip{opacity:1}
+.dash-main{padding:0;overflow:hidden;position:relative}
+.dash-tab-bar{display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,.06);background:#0d0d0d}
+.dash-tab{padding:10px 20px;font-size:.78rem;color:var(--fg2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;font-weight:500}
+.dash-tab:hover{color:var(--fg);background:rgba(255,255,255,.03)}
+.dash-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.dash-panel{padding:20px;display:none;animation:dashFade .3s ease}
+.dash-panel.active{display:block}
+@keyframes dashFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.dash-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.dash-stat{background:#111;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:14px 16px;transition:border-color .2s}
+.dash-stat:hover{border-color:rgba(16,185,129,.3)}
+.dash-stat small{color:var(--fg2);font-size:.7rem;text-transform:uppercase;letter-spacing:.5px}
+.dash-stat div{font-size:1.5rem;font-weight:700;margin-top:4px}
+.dash-chart{background:#111;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:16px;margin-bottom:16px}
+.dash-chart-title{font-size:.75rem;color:var(--fg2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.bars{display:flex;align-items:flex-end;gap:10px;height:120px;padding-bottom:20px}
+.bar{flex:1;background:var(--accent);border-radius:4px 4px 0 0;min-width:20px;transition:height .5s,opacity .2s;position:relative;cursor:pointer}
+.bar:hover{opacity:.8}
+.bar-label{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:.6rem;color:var(--fg2);white-space:nowrap}
+.bar-value{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:.6rem;color:var(--fg2);white-space:nowrap;opacity:0;transition:opacity .2s}
+.bar:hover .bar-value{opacity:1}
+.dash-table{width:100%;font-size:.78rem;border-collapse:collapse}
 .dash-table th,.dash-table td{padding:8px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,.06)}
-.dash-table th{color:var(--fg2);font-weight:500}
-.status-badge{padding:2px 8px;border-radius:4px;font-size:.75rem}
-.status-green{background:rgba(16,185,129,.15);color:var(--accent)}
+.dash-table th{color:var(--fg2);font-weight:500;font-size:.7rem;text-transform:uppercase;letter-spacing:.5px}
+.dash-table tr{transition:background .2s}
+.dash-table tbody tr:hover{background:rgba(255,255,255,.03);cursor:pointer}
+.status-badge{padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:500}
+.status-green{background:rgba(16,185,129,.15);color:#10b981}
 .status-yellow{background:rgba(245,158,11,.15);color:#f59e0b}
+.status-red{background:rgba(239,68,68,.15);color:#ef4444}
+.status-blue{background:rgba(59,130,246,.15);color:#3b82f6}
+.dash-activity{font-size:.78rem}
+.dash-activity-item{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between;align-items:center}
+.dash-activity-item:last-child{border:none}
+.dash-activity-time{color:var(--fg2);font-size:.7rem}
+.map-placeholder{background:#111;border:1px solid rgba(255,255,255,.06);border-radius:8px;height:180px;position:relative;margin-bottom:16px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.map-placeholder::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#0d1117 25%,#111827 50%,#0d1117 75%);opacity:.5}
+.map-pin{position:absolute;font-size:1.1rem;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+.werkstatt-list{display:flex;flex-direction:column;gap:8px}
+.werkstatt-card{background:#111;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:12px 16px;display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;transition:border-color .2s;cursor:pointer}
+.werkstatt-card:hover{border-color:rgba(16,185,129,.3)}
+.werkstatt-name{font-weight:600;font-size:.82rem}
+.werkstatt-city{color:var(--fg2);font-size:.7rem}
+.werkstatt-stars{color:#f59e0b;font-size:.7rem;letter-spacing:1px}
+.avail-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.avail-green{background:#10b981}.avail-yellow{background:#f59e0b}.avail-red{background:#ef4444}
+.avail-label{font-size:.7rem;color:var(--fg2)}
+.damage-timeline{display:flex;flex-direction:column;gap:10px}
+.damage-item{background:#111;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:14px 16px;display:grid;grid-template-columns:80px 1fr auto auto;gap:12px;align-items:center;transition:border-color .2s;cursor:pointer}
+.damage-item:hover{border-color:rgba(16,185,129,.3)}
+.damage-date{font-size:.7rem;color:var(--fg2)}
+.damage-info{font-size:.8rem}
+.damage-info small{display:block;color:var(--fg2);font-size:.7rem}
+.damage-cost{font-weight:600;font-size:.85rem}
+.reports-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.report-card{background:#111;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:20px}
+.donut-container{display:flex;align-items:center;gap:20px;justify-content:center}
+.donut-legend{font-size:.72rem;display:flex;flex-direction:column;gap:6px}
+.donut-legend-item{display:flex;align-items:center;gap:8px}
+.donut-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
 /* TESTIMONIALS */
 #testimonials{padding:120px 0;background:var(--bg2)}
@@ -160,35 +208,19 @@ footer{padding:64px 0 32px;border-top:1px solid rgba(255,255,255,.05)}
 .features-grid,.testimonials-grid,.pricing-grid{grid-template-columns:1fr}
 .vorteile-grid{grid-template-columns:repeat(2,1fr)}
 .price-card.popular{transform:none}
-.dash-body{grid-template-columns:1fr}
-.dash-sidebar{display:none}
-.dash-stat-row{grid-template-columns:1fr 1fr}
+.dash-body{grid-template-columns:1fr}.dash-sidebar{display:none}
+.dash-stat-row{grid-template-columns:repeat(2,1fr)}
+.reports-grid{grid-template-columns:1fr}
 .footer-top{grid-template-columns:1fr 1fr;gap:32px}
 .form-grid{grid-template-columns:1fr}
-.form-wrapper{padding:32px 20px}
-.testimonial{padding:28px}
-.feature-card{padding:28px}
-.price-card{padding:28px}
-#features,#vorteile,#testimonials,#pricing,#dashboard,#lead-form,#cta-banner{padding:80px 0}
-.section-title{margin-bottom:40px}
-.logos{gap:16px}
-.logos span{padding:8px 16px;font-size:.8rem}
 }
 @media(max-width:500px){
 .stats{grid-template-columns:1fr 1fr}
 .vorteile-grid{grid-template-columns:1fr}
-.hero-btns{flex-direction:column;align-items:center;width:100%;padding:0 16px}
-.hero-btns .btn{width:100%;text-align:center}
-.hero-content h1{font-size:2rem}
-.hero-content p{font-size:1rem}
+.hero-btns{flex-direction:column;align-items:center}
 .footer-top{grid-template-columns:1fr}
-.footer-bottom{flex-direction:column;gap:12px;text-align:center}
 .dash-stat-row{grid-template-columns:1fr}
-.dash-main{padding:16px}
-.container{padding:0 16px}
-.dashboard-wrapper{border-radius:10px}
-.popular-badge{font-size:.7rem;padding:3px 12px}
-.price-amount{font-size:2rem}
+.damage-item{grid-template-columns:1fr;gap:4px}
 }
 </style>
 </head>
@@ -287,7 +319,7 @@ footer{padding:64px 0 32px;border-top:1px solid rgba(255,255,255,.05)}
 </div>
 </section>
 
-<!-- DASHBOARD -->
+<!-- DASHBOARD - Interactive Platform Demo -->
 <section id="dashboard">
 <div class="container">
 <div class="section-label fade-in">Plattform</div>
@@ -295,49 +327,147 @@ footer{padding:64px 0 32px;border-top:1px solid rgba(255,255,255,.05)}
 <div class="dashboard-wrapper fade-in">
 <div class="dash-topbar">
 <div class="dash-dot r"></div><div class="dash-dot y"></div><div class="dash-dot g"></div>
-<span style="margin-left:12px;font-size:.85rem;color:var(--fg2)">RONYA Dashboard</span>
+<span class="dash-topbar-title">RONYA Platform — app.ronya.de</span>
+<input type="text" class="dash-search" placeholder="🔍 Suche nach Fahrzeug, Werkstatt...">
 </div>
 <div class="dash-body">
 <div class="dash-sidebar">
-<div class="dash-sidebar-item active">📊 Dashboard</div>
-<div class="dash-sidebar-item">🚗 Fahrzeuge</div>
-<div class="dash-sidebar-item">🔧 Werkstätten</div>
-<div class="dash-sidebar-item">📋 Aufträge</div>
-<div class="dash-sidebar-item">🛡️ Schäden</div>
-<div class="dash-sidebar-item">📈 Reports</div>
-<div class="dash-sidebar-item">⚙️ Settings</div>
+<div class="dash-sidebar-item active" data-tab="dashboard">📊<span class="sidebar-tooltip">Dashboard</span></div>
+<div class="dash-sidebar-item" data-tab="werkstaetten">🔧<span class="sidebar-tooltip">Werkstätten</span></div>
+<div class="dash-sidebar-item" data-tab="fahrzeuge">🚗<span class="sidebar-tooltip">Fahrzeuge</span></div>
+<div class="dash-sidebar-item" data-tab="schaeden">🛡️<span class="sidebar-tooltip">Schäden</span></div>
+<div class="dash-sidebar-item" data-tab="berichte">📈<span class="sidebar-tooltip">Berichte</span></div>
+<div style="flex:1"></div>
+<div class="dash-sidebar-item" style="opacity:.4;cursor:default">⚙️<span class="sidebar-tooltip">Einstellungen</span></div>
 </div>
 <div class="dash-main">
+<div class="dash-tab-bar">
+<div class="dash-tab active" data-tab="dashboard">Dashboard</div>
+<div class="dash-tab" data-tab="werkstaetten">Werkstätten</div>
+<div class="dash-tab" data-tab="fahrzeuge">Fahrzeuge</div>
+<div class="dash-tab" data-tab="schaeden">Schäden</div>
+<div class="dash-tab" data-tab="berichte">Berichte</div>
+</div>
+
+<!-- Panel: Dashboard -->
+<div class="dash-panel active" data-panel="dashboard">
 <div class="dash-stat-row">
-<div class="dash-stat"><small>Aktive Fahrzeuge</small><div style="color:var(--accent)">347</div></div>
-<div class="dash-stat"><small>Offene Aufträge</small><div style="color:#f59e0b">23</div></div>
-<div class="dash-stat"><small>Kosteneinsparung</small><div style="color:var(--accent)">18,4%</div></div>
+<div class="dash-stat"><small>Fahrzeuge</small><div style="color:var(--accent)">847</div></div>
+<div class="dash-stat"><small>Werkstatttermine</small><div style="color:#3b82f6">124</div></div>
+<div class="dash-stat"><small>Offene Schäden</small><div style="color:#f59e0b">23</div></div>
+<div class="dash-stat"><small>Kosten / Monat</small><div style="color:var(--fg)">€48.320</div></div>
 </div>
 <div class="dash-chart">
-<div class="dash-chart-title">Services pro Monat</div>
+<div class="dash-chart-title">Kosten pro Monat (letztes Halbjahr)</div>
 <div class="bars">
-<div class="bar" style="height:40%"></div>
-<div class="bar" style="height:55%"></div>
-<div class="bar" style="height:45%"></div>
-<div class="bar" style="height:70%"></div>
-<div class="bar" style="height:60%"></div>
-<div class="bar" style="height:85%"></div>
-<div class="bar" style="height:75%"></div>
-<div class="bar" style="height:90%"></div>
-<div class="bar" style="height:65%"></div>
-<div class="bar" style="height:80%"></div>
-<div class="bar" style="height:95%"></div>
-<div class="bar" style="height:88%"></div>
+<div class="bar" style="height:62%"><span class="bar-label">Sep</span><span class="bar-value">€41.200</span></div>
+<div class="bar" style="height:75%"><span class="bar-label">Okt</span><span class="bar-value">€49.800</span></div>
+<div class="bar" style="height:58%"><span class="bar-label">Nov</span><span class="bar-value">€38.500</span></div>
+<div class="bar" style="height:82%"><span class="bar-label">Dez</span><span class="bar-value">€54.300</span></div>
+<div class="bar" style="height:70%"><span class="bar-label">Jan</span><span class="bar-value">€46.400</span></div>
+<div class="bar" style="height:73%"><span class="bar-label">Feb</span><span class="bar-value">€48.320</span></div>
 </div>
 </div>
+<div class="dash-chart" style="padding:12px 16px">
+<div class="dash-chart-title">Letzte Aktivitäten</div>
+<div class="dash-activity">
+<div class="dash-activity-item"><span>🔧 BMW 320d — Ölwechsel abgeschlossen</span><span class="dash-activity-time">vor 12 Min</span></div>
+<div class="dash-activity-item"><span>🛡️ Neuer Schaden gemeldet — VW Transporter</span><span class="dash-activity-time">vor 34 Min</span></div>
+<div class="dash-activity-item"><span>📅 TÜV-Termin gebucht — Mercedes Vito</span><span class="dash-activity-time">vor 1 Std</span></div>
+<div class="dash-activity-item"><span>✅ Leasing-Rückgabe bestätigt — Audi A4</span><span class="dash-activity-time">vor 2 Std</span></div>
+<div class="dash-activity-item"><span>🚗 Neues Fahrzeug hinzugefügt — Tesla Model 3</span><span class="dash-activity-time">vor 3 Std</span></div>
+</div>
+</div>
+</div>
+
+<!-- Panel: Werkstätten -->
+<div class="dash-panel" data-panel="werkstaetten">
+<div class="map-placeholder">
+<div class="map-pin" style="top:25%;left:30%">📍</div>
+<div class="map-pin" style="top:40%;left:55%">📍</div>
+<div class="map-pin" style="top:60%;left:40%">📍</div>
+<div class="map-pin" style="top:35%;left:70%">📍</div>
+<div class="map-pin" style="top:55%;left:65%">📍</div>
+<span style="position:relative;z-index:1;color:var(--fg2);font-size:.8rem">Kartenansicht — 2.147 Partnerwerkstätten</span>
+</div>
+<div class="werkstatt-list">
+<div class="werkstatt-card"><div><div class="werkstatt-name">AutoService König</div><div class="werkstatt-city">München</div></div><div class="werkstatt-stars">★★★★★</div><div style="display:flex;align-items:center"><span class="avail-dot avail-green"></span><span class="avail-label">Verfügbar</span></div></div>
+<div class="werkstatt-card"><div><div class="werkstatt-name">Meisterwerkstatt Braun</div><div class="werkstatt-city">Stuttgart</div></div><div class="werkstatt-stars">★★★★☆</div><div style="display:flex;align-items:center"><span class="avail-dot avail-green"></span><span class="avail-label">Verfügbar</span></div></div>
+<div class="werkstatt-card"><div><div class="werkstatt-name">Schmidt & Söhne KFZ</div><div class="werkstatt-city">Hamburg</div></div><div class="werkstatt-stars">★★★★★</div><div style="display:flex;align-items:center"><span class="avail-dot avail-yellow"></span><span class="avail-label">Eingeschränkt</span></div></div>
+<div class="werkstatt-card"><div><div class="werkstatt-name">CarPoint Berlin</div><div class="werkstatt-city">Berlin</div></div><div class="werkstatt-stars">★★★★☆</div><div style="display:flex;align-items:center"><span class="avail-dot avail-green"></span><span class="avail-label">Verfügbar</span></div></div>
+<div class="werkstatt-card"><div><div class="werkstatt-name">Rhein-Auto Werkstatt</div><div class="werkstatt-city">Köln</div></div><div class="werkstatt-stars">★★★☆☆</div><div style="display:flex;align-items:center"><span class="avail-dot avail-red"></span><span class="avail-label">Ausgebucht</span></div></div>
+</div>
+</div>
+
+<!-- Panel: Fahrzeuge -->
+<div class="dash-panel" data-panel="fahrzeuge">
 <table class="dash-table">
-<thead><tr><th>Fahrzeug</th><th>Status</th><th>Nächster Service</th></tr></thead>
+<thead><tr><th>Kennzeichen</th><th>Modell</th><th>Fahrer</th><th>Status</th><th>Nächster TÜV</th><th>km-Stand</th></tr></thead>
 <tbody>
-<tr><td>BMW 320d (M-FL 1234)</td><td><span class="status-badge status-green">Aktiv</span></td><td>15.03.2026</td></tr>
-<tr><td>VW Transporter (M-FL 5678)</td><td><span class="status-badge status-yellow">In Werkstatt</span></td><td>—</td></tr>
-<tr><td>Mercedes Vito (M-FL 9012)</td><td><span class="status-badge status-green">Aktiv</span></td><td>22.04.2026</td></tr>
+<tr><td>M-FL 1234</td><td>BMW 320d</td><td>T. Müller</td><td><span class="status-badge status-green">Aktiv</span></td><td>15.08.2026</td><td>45.230</td></tr>
+<tr><td>M-FL 5678</td><td>VW Transporter</td><td>S. Weber</td><td><span class="status-badge status-yellow">Werkstatt</span></td><td>03.04.2026</td><td>89.120</td></tr>
+<tr><td>M-FL 9012</td><td>Mercedes Vito</td><td>K. Fischer</td><td><span class="status-badge status-green">Aktiv</span></td><td>22.11.2026</td><td>32.450</td></tr>
+<tr><td>B-XY 3456</td><td>Audi A4 Avant</td><td>M. Schmidt</td><td><span class="status-badge status-green">Aktiv</span></td><td>10.06.2026</td><td>67.800</td></tr>
+<tr><td>HH-KL 7890</td><td>VW Golf 8</td><td>L. Becker</td><td><span class="status-badge status-red">Leasing-Ende</span></td><td>—</td><td>95.340</td></tr>
+<tr><td>K-MN 2345</td><td>Tesla Model 3</td><td>J. Wagner</td><td><span class="status-badge status-green">Aktiv</span></td><td>18.01.2027</td><td>12.100</td></tr>
+<tr><td>S-OP 6789</td><td>Skoda Octavia</td><td>A. Hoffmann</td><td><span class="status-badge status-yellow">Werkstatt</span></td><td>29.07.2026</td><td>78.560</td></tr>
+<tr><td>F-QR 1357</td><td>Ford Transit</td><td>P. Richter</td><td><span class="status-badge status-green">Aktiv</span></td><td>05.09.2026</td><td>54.890</td></tr>
 </tbody>
 </table>
+</div>
+
+<!-- Panel: Schäden -->
+<div class="dash-panel" data-panel="schaeden">
+<div class="damage-timeline">
+<div class="damage-item"><div class="damage-date">27.02.2026</div><div class="damage-info">VW Transporter (M-FL 5678) — Frontschaden<small>Auffahrunfall auf der A9</small></div><div><span class="status-badge status-yellow">In Reparatur</span></div><div class="damage-cost">€3.240</div></div>
+<div class="damage-item"><div class="damage-date">24.02.2026</div><div class="damage-info">Audi A4 (B-XY 3456) — Seitenschaden<small>Parkrempler Kundenparkplatz</small></div><div><span class="status-badge status-red">Gemeldet</span></div><div class="damage-cost">€1.890</div></div>
+<div class="damage-item"><div class="damage-date">19.02.2026</div><div class="damage-info">Skoda Octavia (S-OP 6789) — Heckschaden<small>Rückwärts gegen Poller</small></div><div><span class="status-badge status-yellow">In Reparatur</span></div><div class="damage-cost">€2.150</div></div>
+<div class="damage-item"><div class="damage-date">12.02.2026</div><div class="damage-info">BMW 320d (M-FL 1234) — Steinschlag<small>Windschutzscheibe, Autobahnfahrt</small></div><div><span class="status-badge status-green">Abgeschlossen</span></div><div class="damage-cost">€480</div></div>
+<div class="damage-item"><div class="damage-date">05.02.2026</div><div class="damage-info">Ford Transit (F-QR 1357) — Dachschaden<small>Niedrige Einfahrt Parkhaus</small></div><div><span class="status-badge status-green">Abgeschlossen</span></div><div class="damage-cost">€4.670</div></div>
+</div>
+</div>
+
+<!-- Panel: Berichte -->
+<div class="dash-panel" data-panel="berichte">
+<div class="reports-grid">
+<div class="report-card">
+<div class="dash-chart-title">Kostenverteilung</div>
+<div class="donut-container">
+<svg width="130" height="130" viewBox="0 0 130 130">
+<circle cx="65" cy="65" r="50" fill="none" stroke="#10b981" stroke-width="20" stroke-dasharray="125.66 188.5" stroke-dashoffset="78.54" />
+<circle cx="65" cy="65" r="50" fill="none" stroke="#3b82f6" stroke-width="20" stroke-dasharray="78.54 235.62" stroke-dashoffset="-47.12" />
+<circle cx="65" cy="65" r="50" fill="none" stroke="#f59e0b" stroke-width="20" stroke-dasharray="47.12 267.04" stroke-dashoffset="-125.66" />
+<circle cx="65" cy="65" r="50" fill="none" stroke="#8b5cf6" stroke-width="20" stroke-dasharray="31.42 282.74" stroke-dashoffset="-172.78" />
+<circle cx="65" cy="65" r="50" fill="none" stroke="#6b7280" stroke-width="20" stroke-dasharray="31.42 282.74" stroke-dashoffset="-204.2" />
+<circle cx="65" cy="65" r="30" fill="#0d0d0d" />
+</svg>
+<div class="donut-legend">
+<div class="donut-legend-item"><span class="donut-legend-dot" style="background:#10b981"></span>Wartung 40%</div>
+<div class="donut-legend-item"><span class="donut-legend-dot" style="background:#3b82f6"></span>Reparatur 25%</div>
+<div class="donut-legend-item"><span class="donut-legend-dot" style="background:#f59e0b"></span>Reifen 15%</div>
+<div class="donut-legend-item"><span class="donut-legend-dot" style="background:#8b5cf6"></span>TÜV 10%</div>
+<div class="donut-legend-item"><span class="donut-legend-dot" style="background:#6b7280"></span>Sonstige 10%</div>
+</div>
+</div>
+</div>
+<div class="report-card">
+<div class="dash-chart-title">Flottenkosten 12-Monate Trend</div>
+<svg width="100%" height="160" viewBox="0 0 400 160" preserveAspectRatio="none" style="display:block">
+<defs><linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(16,185,129,.25)"/><stop offset="100%" stop-color="rgba(16,185,129,0)"/></linearGradient></defs>
+<line x1="0" y1="35" x2="400" y2="35" stroke="rgba(255,255,255,.05)"/>
+<line x1="0" y1="70" x2="400" y2="70" stroke="rgba(255,255,255,.05)"/>
+<line x1="0" y1="105" x2="400" y2="105" stroke="rgba(255,255,255,.05)"/>
+<path d="M0,100 L36,95 L73,88 L109,92 L145,80 L182,74 L218,68 L255,75 L291,62 L327,56 L364,50 L400,44 L400,140 L0,140Z" fill="url(#lineGrad)"/>
+<polyline points="0,100 36,95 73,88 109,92 145,80 182,74 218,68 255,75 291,62 327,56 364,50 400,44" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linejoin="round"/>
+<circle cx="0" cy="100" r="3" fill="#10b981"/><circle cx="36" cy="95" r="3" fill="#10b981"/><circle cx="73" cy="88" r="3" fill="#10b981"/><circle cx="109" cy="92" r="3" fill="#10b981"/><circle cx="145" cy="80" r="3" fill="#10b981"/><circle cx="182" cy="74" r="3" fill="#10b981"/><circle cx="218" cy="68" r="3" fill="#10b981"/><circle cx="255" cy="75" r="3" fill="#10b981"/><circle cx="291" cy="62" r="3" fill="#10b981"/><circle cx="327" cy="56" r="3" fill="#10b981"/><circle cx="364" cy="50" r="3" fill="#10b981"/><circle cx="400" cy="44" r="3" fill="#10b981"/>
+</svg>
+<div style="display:flex;justify-content:space-between;font-size:.6rem;color:var(--fg2);padding:4px 0">
+<span>Mär</span><span>Apr</span><span>Mai</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Okt</span><span>Nov</span><span>Dez</span><span>Jan</span><span>Feb</span>
+</div>
+</div>
+</div>
+</div>
+
 </div>
 </div>
 </div>
@@ -508,11 +638,24 @@ const countObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 countObs.observe(document.querySelector('#social-proof'));
 
-// Fix stat suffixes
-document.querySelectorAll('.stat-number').forEach(el => {
-  const t = +el.dataset.target;
-  el._suffix = t === 98 ? '% ' : '+';
-});
+// Interactive Dashboard Tab Switching
+(function() {
+  const tabs = document.querySelectorAll('.dash-tab');
+  const panels = document.querySelectorAll('.dash-panel');
+  const sidebarItems = document.querySelectorAll('.dash-sidebar-item[data-tab]');
+
+  function switchTab(tabName) {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
+    panels.forEach(p => {
+      if (p.dataset.panel === tabName) { p.classList.add('active'); }
+      else { p.classList.remove('active'); }
+    });
+    sidebarItems.forEach(s => s.classList.toggle('active', s.dataset.tab === tabName));
+  }
+
+  tabs.forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+  sidebarItems.forEach(s => s.addEventListener('click', () => switchTab(s.dataset.tab)));
+})();
 
 // Form submission
 document.getElementById('demoForm').addEventListener('submit', async (e) => {
@@ -530,7 +673,7 @@ document.getElementById('demoForm').addEventListener('submit', async (e) => {
       status: 'Neu',
       notes: 'Flottengröße: ' + document.getElementById('fleetSize').value + (document.getElementById('message').value ? ', Nachricht: ' + document.getElementById('message').value : '')
     };
-    const res = await fetch('https://topic-peter-dawn-shepherd.trycloudflare.com/api/leads', {
+    const res = await fetch('http://localhost:3001/api/leads', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
     });
     if (res.ok) {
