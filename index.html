@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RONYA — Fuhrparkmanagement neu gedacht</title>
+<meta name="description" content="RONYA ist die digitale Plattform für Fuhrparkmanagement: Werkstattsteuerung, Leasing-Rückgabe, Schadenmanagement. 2.000+ Partnerwerkstätten.">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--fg:#f5f5f5;--fg2:#a3a3a3;--accent:#10b981;--accent2:#059669;--radius:12px;--max:1200px}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+.btn{display:inline-block;padding:14px 32px;border-radius:8px;font-weight:600;font-size:1rem;cursor:pointer;transition:all .3s;border:none}
+.btn-primary{background:var(--accent);color:#000}.btn-primary:hover{background:var(--accent2);transform:translateY(-2px)}
+.btn-secondary{background:transparent;color:var(--fg);border:1px solid rgba(255,255,255,.2)}.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05)}
+nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-size:1.4rem;font-weight:800;color:var(--fg);letter-spacing:-.5px}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{color:var(--fg2);font-size:.9rem;transition:color .2s}.nav-links a:hover{color:var(--fg)}
+.nav-cta{background:var(--accent);color:#000;padding:8px 20px;border-radius:6px;font-weight:600;font-size:.9rem}
+.mobile-toggle{display:none;background:none;border:none;color:var(--fg);font-size:1.5rem;cursor:pointer}
+
+/* HERO */
+#hero{position:relative;min-height:100vh;display:flex;align-items:center;padding-top:64px;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(16,185,129,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(16,185,129,.06) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 20s linear infinite}
+@keyframes gridMove{0%{transform:translate(0,0)}100%{transform:translate(60px,60px)}}
+.hero-glow{position:absolute;top:20%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(16,185,129,.12) 0%,transparent 70%);pointer-events:none}
+.hero-content{position:relative;z-index:1;text-align:center;max-width:800px;margin:0 auto}
+.hero-content h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;line-height:1.1;margin-bottom:24px;letter-spacing:-1px}
+.hero-content h1 span{color:var(--accent)}
+.hero-content p{font-size:1.25rem;color:var(--fg2);margin-bottom:40px;max-width:600px;margin-left:auto;margin-right:auto}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* SOCIAL PROOF */
+#social-proof{padding:80px 0;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);background:var(--bg2)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center;margin-bottom:48px}
+.stat-number{font-size:clamp(2rem,4vw,3rem);font-weight:800;color:var(--accent)}
+.stat-label{color:var(--fg2);font-size:.95rem;margin-top:4px}
+.logos{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;opacity:.5}
+.logos span{font-size:.9rem;color:var(--fg2);padding:12px 24px;border:1px solid rgba(255,255,255,.1);border-radius:8px}
+
+/* FEATURES */
+#features{padding:120px 0}
+.section-label{color:var(--accent);font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:2px;text-align:center;margin-bottom:12px}
+.section-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;text-align:center;margin-bottom:64px}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.feature-card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:40px;transition:all .3s}
+.feature-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+.feature-icon{font-size:2.5rem;margin-bottom:20px}
+.feature-card h3{font-size:1.3rem;margin-bottom:12px}
+.feature-card p{color:var(--fg2);margin-bottom:16px;line-height:1.7}
+.feature-card a{font-weight:600;font-size:.9rem}
+
+/* VORTEILE */
+#vorteile{padding:120px 0;background:var(--bg2)}
+.vorteile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.vorteil{background:var(--bg3);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:32px;text-align:center;transition:all .3s}
+.vorteil:hover{border-color:var(--accent)}
+.vorteil-icon{font-size:2rem;margin-bottom:12px;display:block}
+.vorteil h4{font-size:1rem;font-weight:600}
+
+/* DASHBOARD MOCKUP */
+#dashboard{padding:120px 0}
+.dashboard-wrapper{background:var(--bg2);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;max-width:1000px;margin:0 auto}
+.dash-topbar{background:var(--bg3);padding:12px 20px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.06)}
+.dash-dot{width:12px;height:12px;border-radius:50%}
+.dash-dot.r{background:#ef4444}.dash-dot.y{background:#f59e0b}.dash-dot.g{background:#10b981}
+.dash-body{display:grid;grid-template-columns:200px 1fr;min-height:350px}
+.dash-sidebar{background:var(--bg3);padding:20px;border-right:1px solid rgba(255,255,255,.06)}
+.dash-sidebar-item{padding:10px 14px;border-radius:6px;font-size:.85rem;color:var(--fg2);margin-bottom:4px;cursor:default}
+.dash-sidebar-item.active{background:rgba(16,185,129,.15);color:var(--accent)}
+.dash-main{padding:24px}
+.dash-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.dash-stat{background:var(--bg3);border-radius:8px;padding:16px}
+.dash-stat small{color:var(--fg2);font-size:.75rem}
+.dash-stat div{font-size:1.4rem;font-weight:700;margin-top:4px}
+.dash-chart{background:var(--bg3);border-radius:8px;padding:16px;margin-bottom:16px}
+.dash-chart-title{font-size:.8rem;color:var(--fg2);margin-bottom:12px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:100px}
+.bar{flex:1;background:var(--accent);border-radius:4px 4px 0 0;min-width:20px;transition:height .5s}
+.dash-table{width:100%;font-size:.8rem;border-collapse:collapse}
+.dash-table th,.dash-table td{padding:8px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,.06)}
+.dash-table th{color:var(--fg2);font-weight:500}
+.status-badge{padding:2px 8px;border-radius:4px;font-size:.75rem}
+.status-green{background:rgba(16,185,129,.15);color:var(--accent)}
+.status-yellow{background:rgba(245,158,11,.15);color:#f59e0b}
+
+/* TESTIMONIALS */
+#testimonials{padding:120px 0;background:var(--bg2)}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.testimonial{background:var(--bg3);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:40px}
+.testimonial blockquote{font-size:1.1rem;line-height:1.7;margin-bottom:20px;font-style:italic;color:var(--fg)}
+.testimonial cite{color:var(--fg2);font-size:.9rem;font-style:normal}
+.testimonial .stars{color:#f59e0b;margin-bottom:12px}
+
+/* PRICING */
+#pricing{padding:120px 0}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;align-items:start}
+.price-card{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:40px;position:relative;transition:all .3s}
+.price-card:hover{transform:translateY(-4px)}
+.price-card.popular{border-color:var(--accent);transform:scale(1.05)}.price-card.popular:hover{transform:scale(1.05) translateY(-4px)}
+.popular-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;padding:4px 16px;border-radius:20px;font-size:.8rem;font-weight:700}
+.price-card h3{font-size:1.3rem;margin-bottom:8px}
+.price-card .desc{color:var(--fg2);font-size:.9rem;margin-bottom:24px}
+.price-amount{font-size:2.5rem;font-weight:800;margin-bottom:4px}
+.price-amount span{font-size:1rem;font-weight:400;color:var(--fg2)}
+.price-period{color:var(--fg2);font-size:.85rem;margin-bottom:32px}
+.price-features{list-style:none;margin-bottom:32px}
+.price-features li{padding:8px 0;color:var(--fg2);font-size:.9rem;border-bottom:1px solid rgba(255,255,255,.04)}
+.price-features li::before{content:'✓';color:var(--accent);margin-right:8px;font-weight:700}
+.price-card .btn{width:100%;text-align:center}
+
+/* LEAD FORM */
+#lead-form{padding:120px 0;background:var(--bg2)}
+.form-wrapper{max-width:600px;margin:0 auto;background:var(--bg3);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:48px}
+.form-wrapper h2{font-size:2rem;margin-bottom:8px;text-align:center}
+.form-wrapper .form-sub{color:var(--fg2);text-align:center;margin-bottom:32px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:.85rem;color:var(--fg2);font-weight:500}
+.form-group input,.form-group select,.form-group textarea{background:var(--bg);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 16px;color:var(--fg);font-size:1rem;font-family:inherit;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--accent)}
+.form-group textarea{resize:vertical;min-height:80px}
+.checkbox-group{display:flex;align-items:flex-start;gap:10px;grid-column:1/-1;margin-top:8px}
+.checkbox-group input[type=checkbox]{margin-top:4px;accent-color:var(--accent)}
+.checkbox-group label{font-size:.85rem;color:var(--fg2)}
+.form-submit{grid-column:1/-1;margin-top:8px}
+.form-success{display:none;text-align:center;padding:24px;color:var(--accent);font-weight:600}
+
+/* CTA BANNER */
+#cta-banner{padding:120px 0;text-align:center;background:linear-gradient(135deg,rgba(16,185,129,.1) 0%,var(--bg) 100%)}
+#cta-banner h2{font-size:clamp(2rem,4vw,3rem);font-weight:800;margin-bottom:24px}
+
+/* FOOTER */
+footer{padding:64px 0 32px;border-top:1px solid rgba(255,255,255,.05)}
+.footer-top{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:48px;margin-bottom:48px}
+.footer-brand .nav-logo{font-size:1.6rem;margin-bottom:12px;display:inline-block}
+.footer-brand p{color:var(--fg2);font-size:.9rem;max-width:280px}
+.footer-col h4{font-size:.85rem;text-transform:uppercase;letter-spacing:1px;color:var(--fg2);margin-bottom:16px}
+.footer-col a{display:block;color:var(--fg2);font-size:.9rem;padding:4px 0;transition:color .2s}.footer-col a:hover{color:var(--fg)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.05);padding-top:24px;display:flex;justify-content:space-between;align-items:center;color:var(--fg2);font-size:.85rem}
+.social-links{display:flex;gap:16px}
+.social-links a{color:var(--fg2);font-size:1.2rem;transition:color .2s}.social-links a:hover{color:var(--accent)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+.nav-links{display:none}.mobile-toggle{display:block}
+.stats{grid-template-columns:repeat(2,1fr)}
+.features-grid,.testimonials-grid,.pricing-grid{grid-template-columns:1fr}
+.vorteile-grid{grid-template-columns:repeat(2,1fr)}
+.price-card.popular{transform:none}
+.dash-body{grid-template-columns:1fr}.dash-sidebar{display:none}
+.footer-top{grid-template-columns:1fr 1fr;gap:32px}
+.form-grid{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+.stats{grid-template-columns:1fr 1fr}
+.vorteile-grid{grid-template-columns:1fr}
+.hero-btns{flex-direction:column;align-items:center}
+.footer-top{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+<div class="container">
+<a href="#" class="nav-logo">RONYA<span>.</span></a>
+<div class="nav-links">
+<a href="#features">Features</a>
+<a href="#pricing">Preise</a>
+<a href="#testimonials">Kunden</a>
+<a href="#lead-form" class="nav-cta">Demo buchen</a>
+</div>
+<button class="mobile-toggle" onclick="document.querySelector('.nav-links').style.display=document.querySelector('.nav-links').style.display==='flex'?'none':'flex'" aria-label="Menü">☰</button>
+</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+<div class="hero-grid"></div>
+<div class="hero-glow"></div>
+<div class="container hero-content">
+<h1>Fuhrpark digital steuern.<br><span>In Echtzeit.</span></h1>
+<p>Die Plattform, die Flottenmanager, Werkstätten und Fahrer verbindet.</p>
+<div class="hero-btns">
+<a href="#lead-form" class="btn btn-primary">Kostenlose Demo buchen</a>
+<a href="#features" class="btn btn-secondary">Produkt entdecken</a>
+</div>
+</div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section id="social-proof">
+<div class="container">
+<div class="stats">
+<div class="fade-in"><div class="stat-number" data-target="2000">0</div><div class="stat-label">Partnerwerkstätten</div></div>
+<div class="fade-in"><div class="stat-number" data-target="480000">0</div><div class="stat-label">Gebuchte Services</div></div>
+<div class="fade-in"><div class="stat-number" data-target="98">0</div><div class="stat-label">% Kundenzufriedenheit</div></div>
+<div class="fade-in"><div class="stat-number" data-target="240">0</div><div class="stat-label">Bäume/Jahr gepflanzt</div></div>
+</div>
+<div class="logos fade-in">
+<span>Müller Logistics</span>
+<span>Schmidt Transport</span>
+<span>Weber Flotte</span>
+<span>Fischer Mobility</span>
+<span>Bauer Fuhrpark</span>
+</div>
+</div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+<div class="container">
+<div class="section-label fade-in">Features</div>
+<h2 class="section-title fade-in">Alles, was Ihr Fuhrpark braucht</h2>
+<div class="features-grid">
+<div class="feature-card fade-in">
+<div class="feature-icon">🔧</div>
+<h3>Werkstattsteuerung</h3>
+<p>Deutschlandweites Netzwerk aus 2.000+ Partnerwerkstätten. Echtzeit-Termine, automatisierte Steuerung, volle Kostenkontrolle.</p>
+<a href="#">Mehr erfahren →</a>
+</div>
+<div class="feature-card fade-in">
+<div class="feature-icon">🔄</div>
+<h3>Leasing-Rückgabe</h3>
+<p>Digitaler Rückgabeprozess. Zustandsdokumentation, Schadenerfassung und Abrechnung — alles in einem System.</p>
+<a href="#">Mehr erfahren →</a>
+</div>
+<div class="feature-card fade-in">
+<div class="feature-icon">🛡️</div>
+<h3>Schadenmanagement</h3>
+<p>Vom Schadeneingang bis zur Reparatur. Automatische Werkstattzuweisung, Statusverfolgung, Kostenanalyse.</p>
+<a href="#">Mehr erfahren →</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- VORTEILE -->
+<section id="vorteile">
+<div class="container">
+<div class="section-label fade-in">Vorteile</div>
+<h2 class="section-title fade-in">Warum Flottenmanager RONYA lieben</h2>
+<div class="vorteile-grid">
+<div class="vorteil fade-in"><span class="vorteil-icon">💰</span><h4>Automatische Preisoptimierung</h4></div>
+<div class="vorteil fade-in"><span class="vorteil-icon">🔔</span><h4>TÜV/UVV/DGUV Reminder</h4></div>
+<div class="vorteil fade-in"><span class="vorteil-icon">🏪</span><h4>Freie Werkstattwahl + Kostensenkung</h4></div>
+<div class="vorteil fade-in"><span class="vorteil-icon">📅</span><h4>Hohe Terminverfügbarkeit</h4></div>
+<div class="vorteil fade-in"><span class="vorteil-icon">📱</span><h4>Flottenmanager-Fahrer-Werkstatt App</h4></div>
+<div class="vorteil fade-in"><span class="vorteil-icon">📋</span><h4>Car Policy digital hinterlegen</h4></div>
+<div class="vorteil fade-in"><span class="vorteil-icon">🛠️</span><h4>Digitales Schadenmanagement</h4></div>
+<div class="vorteil fade-in"><span class="vorteil-icon">📊</span><h4>Für jede Flottengröße</h4></div>
+</div>
+</div>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard">
+<div class="container">
+<div class="section-label fade-in">Plattform</div>
+<h2 class="section-title fade-in">Eine Plattform. Volle Kontrolle.</h2>
+<div class="dashboard-wrapper fade-in">
+<div class="dash-topbar">
+<div class="dash-dot r"></div><div class="dash-dot y"></div><div class="dash-dot g"></div>
+<span style="margin-left:12px;font-size:.85rem;color:var(--fg2)">RONYA Dashboard</span>
+</div>
+<div class="dash-body">
+<div class="dash-sidebar">
+<div class="dash-sidebar-item active">📊 Dashboard</div>
+<div class="dash-sidebar-item">🚗 Fahrzeuge</div>
+<div class="dash-sidebar-item">🔧 Werkstätten</div>
+<div class="dash-sidebar-item">📋 Aufträge</div>
+<div class="dash-sidebar-item">🛡️ Schäden</div>
+<div class="dash-sidebar-item">📈 Reports</div>
+<div class="dash-sidebar-item">⚙️ Settings</div>
+</div>
+<div class="dash-main">
+<div class="dash-stat-row">
+<div class="dash-stat"><small>Aktive Fahrzeuge</small><div style="color:var(--accent)">347</div></div>
+<div class="dash-stat"><small>Offene Aufträge</small><div style="color:#f59e0b">23</div></div>
+<div class="dash-stat"><small>Kosteneinsparung</small><div style="color:var(--accent)">18,4%</div></div>
+</div>
+<div class="dash-chart">
+<div class="dash-chart-title">Services pro Monat</div>
+<div class="bars">
+<div class="bar" style="height:40%"></div>
+<div class="bar" style="height:55%"></div>
+<div class="bar" style="height:45%"></div>
+<div class="bar" style="height:70%"></div>
+<div class="bar" style="height:60%"></div>
+<div class="bar" style="height:85%"></div>
+<div class="bar" style="height:75%"></div>
+<div class="bar" style="height:90%"></div>
+<div class="bar" style="height:65%"></div>
+<div class="bar" style="height:80%"></div>
+<div class="bar" style="height:95%"></div>
+<div class="bar" style="height:88%"></div>
+</div>
+</div>
+<table class="dash-table">
+<thead><tr><th>Fahrzeug</th><th>Status</th><th>Nächster Service</th></tr></thead>
+<tbody>
+<tr><td>BMW 320d (M-FL 1234)</td><td><span class="status-badge status-green">Aktiv</span></td><td>15.03.2026</td></tr>
+<tr><td>VW Transporter (M-FL 5678)</td><td><span class="status-badge status-yellow">In Werkstatt</span></td><td>—</td></tr>
+<tr><td>Mercedes Vito (M-FL 9012)</td><td><span class="status-badge status-green">Aktiv</span></td><td>22.04.2026</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+<div class="container">
+<div class="section-label fade-in">Kundenstimmen</div>
+<h2 class="section-title fade-in">Was unsere Kunden sagen</h2>
+<div class="testimonials-grid">
+<div class="testimonial fade-in">
+<div class="stars">★★★★★</div>
+<blockquote>„RONYA hat unseren Werkstattprozess um 60% beschleunigt."</blockquote>
+<cite>Thomas M., Flottenmanager</cite>
+</div>
+<div class="testimonial fade-in">
+<div class="stars">★★★★★</div>
+<blockquote>„Endlich eine Software die mitdenkt. Die automatischen TÜV-Erinnerungen allein sparen uns 20 Stunden pro Monat."</blockquote>
+<cite>Sandra K., Operations</cite>
+</div>
+<div class="testimonial fade-in">
+<div class="stars">★★★★★</div>
+<blockquote>„Die Leasing-Rückgabe war immer ein Albtraum. Mit RONYA erledigt sich das fast von selbst."</blockquote>
+<cite>Michael B., Fuhrparkleiter</cite>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+<div class="container">
+<div class="section-label fade-in">Preise</div>
+<h2 class="section-title fade-in">Transparent und fair</h2>
+<div class="pricing-grid">
+<div class="price-card fade-in">
+<h3>Starter</h3>
+<div class="desc">Bis 50 Fahrzeuge</div>
+<div class="price-amount">4,90€ <span>/Fahrzeug/Monat</span></div>
+<div class="price-period">Jährliche Abrechnung</div>
+<ul class="price-features">
+<li>Werkstattsteuerung</li>
+<li>TÜV-Reminder</li>
+<li>Basis-Reporting</li>
+<li>E-Mail Support</li>
+</ul>
+<a href="#lead-form" class="btn btn-secondary" style="width:100%;text-align:center">Jetzt starten</a>
+</div>
+<div class="price-card popular fade-in">
+<div class="popular-badge">Beliebt</div>
+<h3>Business</h3>
+<div class="desc">Bis 200 Fahrzeuge</div>
+<div class="price-amount">3,90€ <span>/Fahrzeug/Monat</span></div>
+<div class="price-period">Jährliche Abrechnung</div>
+<ul class="price-features">
+<li>Alles aus Starter</li>
+<li>Leasing-Rückgabe</li>
+<li>Schadenmanagement</li>
+<li>API-Zugang</li>
+<li>Priority Support</li>
+</ul>
+<a href="#lead-form" class="btn btn-primary" style="width:100%;text-align:center">Demo buchen</a>
+</div>
+<div class="price-card fade-in">
+<h3>Enterprise</h3>
+<div class="desc">200+ Fahrzeuge</div>
+<div class="price-amount">Individuell</div>
+<div class="price-period">Maßgeschneidert für Sie</div>
+<ul class="price-features">
+<li>Alles aus Business</li>
+<li>Dedicated Account Manager</li>
+<li>Custom Integrationen</li>
+<li>SLA Garantie</li>
+<li>Onboarding & Schulung</li>
+</ul>
+<a href="#lead-form" class="btn btn-secondary" style="width:100%;text-align:center">Demo buchen</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- LEAD FORM -->
+<section id="lead-form">
+<div class="container">
+<div class="form-wrapper fade-in">
+<h2>Kostenlose Demo vereinbaren</h2>
+<p class="form-sub">Lernen Sie RONYA in einer persönlichen Demo kennen.</p>
+<form id="demoForm" class="form-grid">
+<div class="form-group full"><label for="company">Firma *</label><input type="text" id="company" required></div>
+<div class="form-group"><label for="firstName">Vorname *</label><input type="text" id="firstName" required></div>
+<div class="form-group"><label for="lastName">Nachname *</label><input type="text" id="lastName" required></div>
+<div class="form-group"><label for="email">E-Mail *</label><input type="email" id="email" required></div>
+<div class="form-group"><label for="phone">Telefon</label><input type="tel" id="phone"></div>
+<div class="form-group"><label for="fleetSize">Flottengröße</label>
+<select id="fleetSize"><option value="1-50">1–50 Fahrzeuge</option><option value="51-200">51–200 Fahrzeuge</option><option value="200+">200+ Fahrzeuge</option></select></div>
+<div class="form-group"><label for="message">Nachricht (optional)</label><textarea id="message" rows="3"></textarea></div>
+<div class="checkbox-group">
+<input type="checkbox" id="dsgvo" required>
+<label for="dsgvo">Ich stimme der Verarbeitung meiner Daten gemäß der <a href="#">Datenschutzerklärung</a> zu. *</label>
+</div>
+<div class="form-submit"><button type="submit" class="btn btn-primary" style="width:100%">Demo anfordern</button></div>
+</form>
+<div class="form-success" id="formSuccess">✓ Vielen Dank! Wir melden uns innerhalb von 24 Stunden.</div>
+</div>
+</div>
+</section>
+
+<!-- CTA BANNER -->
+<section id="cta-banner">
+<div class="container fade-in">
+<h2>Bereit, deinen Fuhrpark zu digitalisieren?</h2>
+<a href="#lead-form" class="btn btn-primary">Jetzt kostenlos testen</a>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<div class="container">
+<div class="footer-top">
+<div class="footer-brand">
+<a href="#" class="nav-logo">RONYA<span>.</span></a>
+<p>Die digitale Plattform für modernes Fuhrparkmanagement.</p>
+</div>
+<div class="footer-col"><h4>Produkt</h4><a href="#">Werkstattsteuerung</a><a href="#">Leasing-Rückgabe</a><a href="#">Schadenmanagement</a><a href="#">Preise</a></div>
+<div class="footer-col"><h4>Unternehmen</h4><a href="#">Über uns</a><a href="#">Karriere</a><a href="#">Blog</a><a href="#">Kontakt</a></div>
+<div class="footer-col"><h4>Rechtliches</h4><a href="#">Datenschutz</a><a href="#">Impressum</a><a href="#">AGB</a></div>
+</div>
+<div class="footer-bottom">
+<span>© 2026 RONYA GmbH. Alle Rechte vorbehalten.</span>
+<div class="social-links">
+<a href="#" aria-label="LinkedIn">in</a>
+<a href="#" aria-label="Twitter">𝕏</a>
+</div>
+</div>
+</div>
+</footer>
+
+<script>
+// Intersection Observer for fade-in
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+// Count-up animation
+let counted = false;
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !counted) {
+      counted = true;
+      document.querySelectorAll('.stat-number').forEach(el => {
+        const target = +el.dataset.target;
+        const duration = 2000;
+        const start = performance.now();
+        const fmt = (n) => n.toLocaleString('de-DE');
+        const tick = (now) => {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = fmt(Math.floor(target * eased)) + (target >= 100 && target < 200 ? '%' : '+');
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+countObs.observe(document.querySelector('#social-proof'));
+
+// Fix stat suffixes
+document.querySelectorAll('.stat-number').forEach(el => {
+  const t = +el.dataset.target;
+  el._suffix = t === 98 ? '% ' : '+';
+});
+
+// Form submission
+document.getElementById('demoForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.disabled = true; btn.textContent = 'Wird gesendet...';
+  try {
+    const body = {
+      company: document.getElementById('company').value,
+      contactName: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value || null,
+      source: 'ronya.de',
+      score: 50,
+      status: 'Neu',
+      notes: 'Flottengröße: ' + document.getElementById('fleetSize').value + (document.getElementById('message').value ? ', Nachricht: ' + document.getElementById('message').value : '')
+    };
+    const res = await fetch('http://localhost:3001/api/leads', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (res.ok) {
+      document.getElementById('demoForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    } else { throw new Error('Server error'); }
+  } catch (err) {
+    alert('Fehler beim Senden. Bitte versuchen Sie es erneut.');
+    btn.disabled = false; btn.textContent = 'Demo anfordern';
+  }
+});
+</script>
+</body>
+</html>
